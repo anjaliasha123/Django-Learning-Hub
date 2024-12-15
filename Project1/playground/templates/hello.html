@@ -1,0 +1,18 @@
+<html>
+  <body>
+    {% if name %}
+    <h1>Hello {{name}}</h1>
+    {% else %}
+    <h1>hello worl;d</h1>
+    {% endif %}
+    {% comment %} <ul>
+      {% for order in orders %}
+      <li>
+        <p>{{order.id}} - {{order.customer.first_name}}</p>
+        {% comment %} <p>Unit Price: {{product.unit_price}}</p> {% endcomment %}
+      </li>
+      {% comment %} {% endfor %}
+    </ul> {% endcomment %}
+    {% comment %} <h1>count: {{count.count}}</h1> {% endcomment %}
+  </body>
+</html>
