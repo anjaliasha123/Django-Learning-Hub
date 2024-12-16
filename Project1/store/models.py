@@ -10,15 +10,21 @@ class Collection(models.Model):
     title = models.CharField(max_length=255)
     featured_product = models.ForeignKey('Product', on_delete=models.SET_NULL, null=True, related_name='+')
 
+    def __str__(self) -> str:
+        return self.title
+    
+    class Meta:
+        ordering =['title']
+
 class Product(models.Model):
     title = models.CharField(max_length=255)
     slug = models.SlugField()
-    description = models.TextField()
+    description = models.TextField(null=True)
     unit_price = models.DecimalField(max_digits=6, decimal_places=3)
     inventory = models.IntegerField()
     last_update = models.DateField(auto_now=True)
-    collection = models.ForeignKey(Collection, on_delete=models.PROTECT)
-    promotions = models.ManyToManyField(Promotion)
+    collection = models.ForeignKey(Collection, on_delete=models.PROTECT, related_name='products')
+    promotions = models.ManyToManyField(Promotion, blank=True)
 
 class Customer(models.Model):
     MEMBERSHIP_BRONZE = "B"
@@ -59,7 +65,7 @@ class OrderItem(models.Model):
     quantity = models.PositiveBigIntegerField()
     unit_price = models.DecimalField(max_digits=6, decimal_places=2)
     order = models.ForeignKey(Order, on_delete=models.PROTECT)
-    product = models.ForeignKey(Product, on_delete=models.PROTECT)
+    product = models.ForeignKey(Product, on_delete=models.PROTECT, related_name='orderitems')
 
 class Address(models.Model):
     street = models.CharField(max_length=255)
