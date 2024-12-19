@@ -1,0 +1,72 @@
+GET http://localhost:8000/api/products/ HTTP/1.1
+
+###
+
+POST http://localhost:8000/api/products/ HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0NTg0ODMwLCJpYXQiOjE3MzQ1ODQ1MzAsImp0aSI6IjgzZTQyYWMxYzgxNTQ1OGVhNjZhYTI0ZmQ0NTM5NGU4IiwidXNlcl9pZCI6MX0.iP5dZXr_vnO170VlGBM_DYFt8-PHQN8MAO0vcqglst4
+
+{
+    "name": "dummy3",
+    "description": "amazing new3",
+    "price": "12.99",
+    "stock": 2
+}
+
+### 
+POST http://localhost:8000/api/token/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "username": "admin",
+    "password": "test"
+}
+
+### 
+POST http://localhost:8000/api/token/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "username": "anna",
+    "password": "anna123"
+}
+
+###
+GET http://localhost:8000/api/user-orders/ HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0NTg1MDMwLCJpYXQiOjE3MzQ1ODQ3MzAsImp0aSI6IjdmMjcxN2E4YmQ1MzQzMDE5MjJlZjAzODhjZDYwMzFhIiwidXNlcl9pZCI6Mn0.RulvCMlNfXf4KgKgf9WpP-h-Uvq0k4m2zlS-_FqxIlU
+
+### 
+POST http://localhost:8000/api/token/refresh/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczNDcwNTg4NywiaWF0IjoxNzM0NjE5NDg3LCJqdGkiOiJhMmIzYTA1Zjk4YTY0MjllOTY1MjM5YjQwM2RhZGY2MyIsInVzZXJfaWQiOjF9.qLHUI0mh8faSP1hKKuiiMoCzRPqToJTqKLQFAlqrgQI"
+}
+
+###
+GET http://localhost:8000/api/products/8 HTTP/1.1
+
+###
+PUT http://localhost:8000/api/products/8 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0NjIxMjUzLCJpYXQiOjE3MzQ2MjA5NTMsImp0aSI6IjgwM2E4MGZjNWYzOTQ0MTJiM2NmOGUzZTUyY2E5ZmZhIiwidXNlcl9pZCI6MX0.9iyO7CXJIjNSvrZTuvHELsnD0kBWVwHwB-WYfXW5jsY
+Content-Type: application/json
+
+{
+  "name": "A Scanner Darkly Updated",
+  "description": "updated description",
+  "price": "12.99",
+  "stock": 4
+}
+
+###
+PATCH http://localhost:8000/api/products/8 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0NjIxMjUzLCJpYXQiOjE3MzQ2MjA5NTMsImp0aSI6IjgwM2E4MGZjNWYzOTQ0MTJiM2NmOGUzZTUyY2E5ZmZhIiwidXNlcl9pZCI6MX0.9iyO7CXJIjNSvrZTuvHELsnD0kBWVwHwB-WYfXW5jsY
+Content-Type: application/json
+
+{
+  "description": "updated patch description"
+}
+
+###
+DELETE http://localhost:8000/api/products/8 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzM0NjIxMjUzLCJpYXQiOjE3MzQ2MjA5NTMsImp0aSI6IjgwM2E4MGZjNWYzOTQ0MTJiM2NmOGUzZTUyY2E5ZmZhIiwidXNlcl9pZCI6MX0.9iyO7CXJIjNSvrZTuvHELsnD0kBWVwHwB-WYfXW5jsY
