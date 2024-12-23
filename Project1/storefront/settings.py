@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     "debug_toolbar",
     'store',
     'tags',
-    'likes'
+    'likes',
+    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -139,5 +140,6 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
-    'COERCE_DECIMAL_TO_STRING' : False
+    'COERCE_DECIMAL_TO_STRING' : False,
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
 }
