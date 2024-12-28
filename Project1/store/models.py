@@ -91,7 +91,7 @@ class OrderItem(models.Model):
     
     quantity = models.PositiveBigIntegerField()
     unit_price = models.DecimalField(max_digits=6, decimal_places=2)
-    order = models.ForeignKey(Order, on_delete=models.PROTECT)
+    order = models.ForeignKey(Order, on_delete=models.PROTECT, related_name='orders')
     product = models.ForeignKey(Product, on_delete=models.PROTECT, related_name='orderitems')
 
 class Address(models.Model):

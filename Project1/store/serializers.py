@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from decimal import Decimal
-from store.models import Product, Collection, Review, Cart, CartItem, Customer
+from store.models import Product, Collection, Review, Cart, CartItem, Customer, Order, OrderItem
 
 class CollectionSerializer(serializers.ModelSerializer):
     products_count = serializers.IntegerField(read_only=True)
@@ -8,25 +8,7 @@ class CollectionSerializer(serializers.ModelSerializer):
         model = Collection
         fields = ['id', 'title',  'products_count', ]
 
-# class ProductSerializer(serializers.Serializer):
-#     id = serializers.IntegerField()
-#     title = serializers.CharField(max_length=255)
-#     price = serializers.DecimalField(max_digits=6, decimal_places=2, source='unit_price')
-#     price_with_tax = serializers.SerializerMethodField(method_name='calculate_price_tax')
-#     # collection = serializers.StringRelatedField()
-#     # collection = CollectionSerializer()
-#     collection = serializers.HyperlinkedRelatedField(
-#         queryset = Collection.objects.all(),
-#         view_name = 'collection-detail',
-#     )
-
 class ProductSerializer(serializers.ModelSerializer):
-    # collection = serializers.HyperlinkedRelatedField(
-    #     queryset = Collection.objects.all(),
-    #     view_name = 'collection-detail',
-    # )
-    # price = serializers.DecimalField(max_digits=6, decimal_places=2, source='unit_price')
-    # price_with_tax = serializers.SerializerMethodField(method_name='calculate_price_tax')
 
     class Meta:
         model = Product
@@ -35,15 +17,6 @@ class ProductSerializer(serializers.ModelSerializer):
     def calculate_price_tax(self, product: Product):
         return product.unit_price * Decimal(1.1)
     
-    # def create(self, validated_data):
-    #     product = Product(**validated_data)
-    #     product.other = 1
-    #     product.save()
-    #     return product
-    # def update(self, instance, validated_data):
-    #     instance.unit_price = validated_data.get('unit_price')
-    #     instance.save()
-    #     return instance
 
 class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
@@ -117,3 +90,16 @@ class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
         fields = ['id', 'user_id', 'phone', 'birth_date', 'membership']
+
+class OrderItemSerializer(serializers.ModelSerializer):
+    product = SimpleProductSerializer()
+    class Meta:
+        model = OrderItem
+        fields = ['id', 'product' ,'unit_price', 'quantity',]
+
+class OrderSerializer(serializers.ModelSerializer):
+    orders = OrderItemSerializer(many=True, read_only=True)
+    
+    class Meta:
+        model = Order
+        fields = ['id', 'customer', 'placed_at', 'payment_status', 'orders']

@@ -10,8 +10,8 @@ from rest_framework import filters
 from rest_framework.decorators import action
 from django_filters.rest_framework import DjangoFilterBackend
 from store.pagination import DefaultPagination
-from .models import CartItem, Product, Collection, OrderItem, Review, Cart, Customer
-from .serializers import AddCartItemSerializer, ProductSerializer, CollectionSerializer, ReviewSerializer, CartSerializer, CartItemSerializer, UpdateCartItemSerializer, CustomerSerializer
+from .models import CartItem, Product, Collection, OrderItem, Review, Cart, Customer, Order
+from .serializers import AddCartItemSerializer, ProductSerializer, CollectionSerializer, ReviewSerializer, CartSerializer, CartItemSerializer, UpdateCartItemSerializer, CustomerSerializer, OrderSerializer
 from store.filters import ProductFilter
 from .permissions import ViewCustomerHistoryPermission
 # Create your views here.
@@ -111,3 +111,7 @@ class CustomerViewSet(ModelViewSet):
     # @action(detail=True, methods=['get', 'put'])
     # def me(self, request, pk):
     #     return Response('ok')
+
+class OrderViewSet(ModelViewSet):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
