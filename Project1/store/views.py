@@ -10,15 +10,15 @@ from rest_framework import filters
 from rest_framework.decorators import action
 from django_filters.rest_framework import DjangoFilterBackend
 from store.pagination import DefaultPagination
-from .models import CartItem, Product, Collection, OrderItem, Review, Cart, Customer, Order
-from .serializers import AddCartItemSerializer, ProductSerializer, UpdateOrderSerializer, CreateOrderSerializer, CollectionSerializer, ReviewSerializer, CartSerializer, CartItemSerializer, UpdateCartItemSerializer, CustomerSerializer, OrderSerializer
+from .models import CartItem, Product, Collection, OrderItem, ProductImage, Review, Cart, Customer, Order
+from .serializers import AddCartItemSerializer, ProductSerializer, UpdateOrderSerializer, CreateOrderSerializer, CollectionSerializer, ReviewSerializer, CartSerializer, CartItemSerializer, UpdateCartItemSerializer, CustomerSerializer, OrderSerializer, ProductImageSerializer
 from store.filters import ProductFilter
 from .permissions import ViewCustomerHistoryPermission
 # Create your views here.
 
 # http://127.0.0.1:8000/store/products/?title__icontains=bread
 class ProductViewSet(ModelViewSet):
-    queryset = Product.objects.all()
+    queryset = Product.objects.prefetch_related('images').all()
     serializer_class = ProductSerializer
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     filterset_class = ProductFilter
@@ -140,3 +140,10 @@ class OrderViewSet(ModelViewSet):
         
         userId = Customer.objects.only('id').get(user_id=self.request.user.id)
         return Order.objects.filter(customer_id=userId)
+    
+class ProductImageViewSet(ModelViewSet):
+    serializer_class = ProductImageSerializer
+    def get_queryset(self):
+        return ProductImage.objects.filter(product_id=self.kwargs['product_pk'])
+    def get_serializer_context(self):
+        return {'product_id': self.kwargs['product_pk']}
