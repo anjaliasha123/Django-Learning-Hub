@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     'djoser',
     "corsheaders",
     'playground',
-    "debug_toolbar",
     'store',
     'tags',
     'likes',
@@ -55,7 +54,6 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
-    "debug_toolbar.middleware.DebugToolbarMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -63,7 +61,15 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
 ]
+# if DEBUG:
+#     INSTALLED_APPS += ["debug_toolbar",]
+#     MIDDLEWARE += ["debug_toolbar.middleware.DebugToolbarMiddleware",]
+
+if DEBUG:
+    INSTALLED_APPS += ['silk',"debug_toolbar",]
+    MIDDLEWARE += ['silk.middleware.SilkyMiddleware', "debug_toolbar.middleware.DebugToolbarMiddleware",]
 
 INTERNAL_IPS = [
     # ...
