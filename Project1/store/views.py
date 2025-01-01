@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404
 from django.db.models.aggregates import Count
 from rest_framework.decorators import api_view
-from rest_framework.permissions import IsAuthenticated, AllowAny, DjangoModelPermissions, IsAdminUser
+from rest_framework.permissions import IsAuthenticated, AllowAny, DjangoModelPermissions, IsAuthenticatedOrReadOnly, IsAdminUser
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
@@ -43,6 +43,7 @@ class ProductViewSet(ModelViewSet):
 class CollectionViewSet(ModelViewSet):
     queryset = Collection.objects.annotate(products_count=Count('products')).all()
     serializer_class = CollectionSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
     def destroy(self, request, pk):
         collection = get_object_or_404(Collection.objects.annotate(products_count=Count('products')), pk=pk)
         if collection.products.count() > 0:
