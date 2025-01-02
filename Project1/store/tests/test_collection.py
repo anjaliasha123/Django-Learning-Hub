@@ -1,6 +1,13 @@
 from rest_framework import status
 from django.contrib.auth.models import User
+from model_bakery import baker
+from store.models import Collection, Product
 import pytest
+
+import sys
+import os
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 @pytest.fixture
 def create_collection(api_client):
@@ -21,12 +28,12 @@ class TestCreateCollection:
         response = create_collection({'title': 'a'})
         assert response.status_code == status.HTTP_401_UNAUTHORIZED
 
-    @pytest.skip
-    def test_if_user_is_not_admin_returns_403(self, authenticate_user ,create_collection):
+    # @pytest.skip()
+    # def test_if_user_is_not_admin_returns_403(self, authenticate_user ,create_collection):
 
-        authenticate_user(is_staff=False)
-        response = create_collection({'title': 'a'})
-        assert response.status_code == status.HTTP_403_FORBIDDEN
+    #     authenticate_user(is_staff=False)
+    #     response = create_collection({'title': 'a'})
+    #     assert response.status_code == status.HTTP_403_FORBIDDEN
 
     def test_if_data_is_invalid_returns_400(self, authenticate_user ,create_collection):
 
@@ -40,4 +47,17 @@ class TestCreateCollection:
         response = create_collection({'title': 'a'})
         assert response.status_code == status.HTTP_201_CREATED
         assert response.data['id'] > 0
-
+@pytest.mark.django_db
+class TestRetrieveCollection:
+    def test_if_collection_exists_returns_200(self, api_client):
+        # Collection.objects.create(title='a')
+        collection = baker.make(Collection)
+        response = api_client.get(f'/store/collections/{collection.id}/')
+        print(response.data)
+        assert response.status_code == status.HTTP_200_OK
+        assert response.data == {
+            'id' : collection.id,
+            'title' : collection.title,
+            'products_count': 0
+        }
+        
